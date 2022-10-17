@@ -1,0 +1,109 @@
+name: cluster-login
+alias: cluster
+interfaces:
+  - github.com/cloud-native-toolkit/automation-modules#cluster
+type: terraform
+description: Module to perform a simple cluster login and provide the cluster path
+tags:
+  - openshift
+versions:
+  - platforms:
+      - ocp4
+      - kubernetes
+    dependencies: []
+    variables:
+      - name: server_url
+        type: string
+        description: The url for the OpenShift api
+        scope: global
+      - name: login_user
+        type: string
+        description: Username for login
+        default: ''
+      - name: login_password
+        type: string
+        description: Password for login
+        sensitive: true
+        default: ''
+      - name: login_token
+        type: string
+        description: Token used for authentication
+        sensitive: true
+        default: ''
+      - name: skip
+        type: bool
+        description: Flag indicating that the cluster login has already been performed
+        default: false
+      - name: cluster_version
+        type: string
+        description: '[Deprecated] The version of the cluster (passed through to the output)'
+        default: ''
+      - name: ingress_subdomain
+        type: string
+        description: >-
+          [Deprecated] The ingress subdomain of the cluster (passed through to
+          the output)
+        default: ''
+      - name: tls_secret_name
+        type: string
+        description: >-
+          [Deprecated] The name of the secret containing the tls certificates
+          for the ingress subdomain (passed through to the output)
+        default: ''
+      - name: ca_cert
+        type: string
+        description: The base64 encoded ca certificate
+        default: ''
+      - name: ca_cert_file
+        type: string
+        description: The path to the file that contains the ca certificate
+        default: ''
+      - name: user_cert
+        type: string
+        description: The base64 encoded user certificate
+        default: ''
+      - name: user_cert_file
+        type: string
+        description: The path to the file that contains the user certificate
+        default: ''
+      - name: user_key
+        type: string
+        description: The base64 encoded user key certificate
+        default: ''
+        sensitive: true
+      - name: user_key_file
+        type: string
+        description: The path to the file that contains the user key certificate
+        default: ''
+    version: v0.0.1
+    outputs:
+      - name: id
+        description: ID of the cluster.
+      - name: ocp_id
+        description: OpenShift ID of the cluster.
+      - name: name
+        description: Name of the cluster
+      - name: region
+        description: Region of the cluster
+      - name: resource_group_name
+        description: Resource group of the cluster
+      - name: server_url
+        description: The url of the control server.
+      - name: username
+        description: The username of the control server.
+      - name: password
+        description: The password of the control server.
+        sensitive: true
+      - name: token
+        description: The token of the control server.
+        sensitive: true
+      - name: config_file_path
+        description: Path to the config file for the cluster.
+      - name: platform
+        type:
+          lines:
+            - data.external.cluster_info.result.platform_type
+        description: Configuration values for the cluster platform
+      - name: ca_cert
+        description: Base64 encoded CA certificate for cluster endpoints
+id: file:/automation/terraform-ocp-login
